@@ -36,7 +36,7 @@ export const getSubreddits = async (req, res) => {
     const subreddits = await findAllSubreddits();
     return res.status(200).json({ subreddits });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("Error in getSubreddits:", error);
+    return res.status(500).json({ error: error.message || 'Internal server error' });
   }
 };

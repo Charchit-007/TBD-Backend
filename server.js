@@ -52,8 +52,13 @@ app.use('/api/vote', voteRoutes);
 // Enable Cross-Origin Resource Sharing for the React frontend
 
 app.get('/test-db', async (req, res) => {
-  const result = await pool.query('SELECT NOW()');
-  res.json({ time: result.rows[0] });
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ success: true, time: result.rows[0] });
+  } catch (err) {
+    console.error('[test-db] error:', err);
+    res.status(500).json({ success: false, error: err.message, stack: err.stack });
+  }
 });
 
 app.listen(PORT, () => {

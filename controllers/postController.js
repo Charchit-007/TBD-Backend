@@ -29,7 +29,7 @@ export const getPosts = async (req, res) => {
     const result = await fetchPosts();
     return res.status(200).json({ posts: result });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("Error in getPosts:", error);
+    return res.status(500).json({ error: error.message || 'Internal server error' });
   }
 };
