@@ -28,4 +28,4 @@ USER expressjs
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "pnpm run migrate:up && node server.js"]
+CMD ["sh", "-c", "./node_modules/.bin/node-pg-migrate up && node server.js"]
