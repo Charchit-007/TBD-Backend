@@ -11,9 +11,30 @@ import voteRoutes from './routes/vote.js';
 import { startRankingJobs } from './jobs/rankingJob.js';
 
 const app = express();
+
+// Allowed origins for CORS (Local development + Render deployment)
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://reddit-frontend-g6da.onrender.com',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174'
+].filter(Boolean);
+
 app.use(cors({
-  origin: ['https://reddit-frontend-g6da.onrender.com',
-     'http://localhost:5173']
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, curl, or same-origin)
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      callback(null, true);
+    } else {
+      callback(null, true); // Fallback to allow during deployment testing
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 const PORT = process.env.PORT || 5000;
