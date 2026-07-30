@@ -12,7 +12,8 @@ import { startRankingJobs } from './jobs/rankingJob.js';
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: ['https://reddit-frontend-g6da.onrender.com',
+     'http://localhost:5173']
 }));
 
 const PORT = process.env.PORT || 5000;
